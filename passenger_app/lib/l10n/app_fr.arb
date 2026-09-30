@@ -1,0 +1,12 @@
+{
+  "@@locale": "fr",
+  "appTitle": "RIM WAY",
+  "navHome": "Accueil",
+  "navTrips": "Trajets",
+  "navEarnings": "Revenus",
+  "navProfile": "Profil",
+  "loginTitle": "Connexion",
+  "loading": "Chargement...",
+  "errorNetwork": "Erreur de connexion réseau",
+  "homeSearchDestination": "Rechercher une destination..."
+}

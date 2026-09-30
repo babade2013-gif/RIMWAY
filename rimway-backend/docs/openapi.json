@@ -1,0 +1,1954 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/send-otp": {
+      "post": {
+        "operationId": "AuthController_sendOtp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/verify-otp": {
+      "post": {
+        "operationId": "AuthController_verifyOtp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/rides/services": {
+      "get": {
+        "operationId": "RideController_getServices",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Ride"
+        ]
+      }
+    },
+    "/api/v1/rides/estimate": {
+      "post": {
+        "operationId": "RideController_estimateFare",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstimateFareDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Ride"
+        ]
+      }
+    },
+    "/api/v1/rides/request": {
+      "post": {
+        "operationId": "RideController_requestRide",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestRideDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Ride"
+        ]
+      }
+    },
+    "/api/v1/rides/cancel": {
+      "post": {
+        "operationId": "RideController_cancelRide",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRideDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Ride"
+        ]
+      }
+    },
+    "/api/v1/rides/current": {
+      "get": {
+        "operationId": "RideController_getCurrentRide",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Ride"
+        ]
+      }
+    },
+    "/api/v1/rides/{id}/rate": {
+      "post": {
+        "operationId": "RideController_rateRide",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Ride"
+        ]
+      }
+    },
+    "/api/v1/drivers/me": {
+      "get": {
+        "operationId": "DriverController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/register": {
+      "post": {
+        "operationId": "DriverController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DriverRegistrationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/upload": {
+      "post": {
+        "operationId": "DriverController_uploadFile",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/status": {
+      "post": {
+        "operationId": "DriverController_setStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DriverStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/location": {
+      "post": {
+        "operationId": "DriverController_updateLocation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DriverLocationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/{id}/accept": {
+      "post": {
+        "operationId": "DriverController_acceptRide",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/{id}/arrive": {
+      "post": {
+        "operationId": "DriverController_arrivedAtPickup",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/{id}/boarded": {
+      "post": {
+        "operationId": "DriverController_passengerBoarded",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/{id}/start": {
+      "post": {
+        "operationId": "DriverController_startRide",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/{id}/complete": {
+      "post": {
+        "operationId": "DriverController_completeRide",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/{id}/cancel": {
+      "post": {
+        "operationId": "DriverController_cancelRide",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/current": {
+      "get": {
+        "operationId": "DriverController_getCurrentRide",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/rides/history": {
+      "get": {
+        "operationId": "DriverController_getRideHistory",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Driver"
+        ]
+      }
+    },
+    "/api/v1/drivers/wallet": {
+      "get": {
+        "operationId": "WalletController_getWallet",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/api/v1/drivers/wallet/top-up": {
+      "post": {
+        "operationId": "WalletController_requestTopUp",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/api/v1/drivers/wallet/transactions": {
+      "get": {
+        "operationId": "WalletController_getTransactions",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/api/v1/admin/rides": {
+      "get": {
+        "operationId": "AdminController_getRides",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      },
+      "post": {
+        "operationId": "AdminController_createPhoneRide",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePhoneRideDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/v1/admin/rides/{id}": {
+      "get": {
+        "operationId": "AdminController_getRideDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/v1/admin/rides/{id}/cancel": {
+      "post": {
+        "operationId": "AdminController_cancelRide",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminCancelRideDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/v1/admin/captains": {
+      "get": {
+        "operationId": "AdminCaptainsController_getCaptains",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      },
+      "post": {
+        "operationId": "AdminCaptainsController_createCaptain",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCaptainDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}": {
+      "get": {
+        "operationId": "AdminCaptainsController_getCaptainDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminCaptainsController_updateCaptain",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCaptainDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/approve": {
+      "post": {
+        "operationId": "AdminCaptainsController_approveCaptain",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActionReasonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/reject": {
+      "post": {
+        "operationId": "AdminCaptainsController_rejectCaptain",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActionReasonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/suspend": {
+      "post": {
+        "operationId": "AdminCaptainsController_suspendCaptain",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActionReasonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/reactivate": {
+      "post": {
+        "operationId": "AdminCaptainsController_reactivateCaptain",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActionReasonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/priority": {
+      "post": {
+        "operationId": "AdminCaptainsController_updatePriorityTier",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/vehicle": {
+      "put": {
+        "operationId": "AdminCaptainsController_updateVehicle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/wallet": {
+      "get": {
+        "operationId": "AdminCaptainsController_getWallet",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/wallet/transactions": {
+      "get": {
+        "operationId": "AdminCaptainsController_getWalletTransactions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/captains/{id}/complaints": {
+      "get": {
+        "operationId": "AdminCaptainsController_getComplaints",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCaptains"
+        ]
+      }
+    },
+    "/api/v1/admin/documents/drivers/{driverId}": {
+      "get": {
+        "operationId": "AdminDocumentsController_getDocuments",
+        "parameters": [
+          {
+            "name": "driverId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminDocuments"
+        ]
+      }
+    },
+    "/api/v1/admin/documents": {
+      "post": {
+        "operationId": "AdminDocumentsController_createDocumentMetadata",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminDocuments"
+        ]
+      }
+    },
+    "/api/v1/admin/documents/{id}/status": {
+      "put": {
+        "operationId": "AdminDocumentsController_updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminDocuments"
+        ]
+      }
+    },
+    "/api/v1/admin/ratings/drivers/{driverId}": {
+      "get": {
+        "operationId": "AdminRatingsController_getDriverRatings",
+        "parameters": [
+          {
+            "name": "driverId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "AdminRatings"
+        ]
+      }
+    },
+    "/api/v1/admin/ratings": {
+      "get": {
+        "operationId": "AdminRatingsController_getAllRatings",
+        "parameters": [
+          {
+            "name": "skip",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "AdminRatings"
+        ]
+      }
+    },
+    "/api/v1/admin/dashboard/stats": {
+      "get": {
+        "operationId": "AdminDashboardController_getStats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminDashboard"
+        ]
+      }
+    },
+    "/api/v1/admin/complaints": {
+      "get": {
+        "operationId": "AdminComplaintsController_getComplaints",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "AdminComplaints"
+        ]
+      }
+    },
+    "/api/v1/admin/complaints/{id}/status": {
+      "put": {
+        "operationId": "AdminComplaintsController_updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminComplaints"
+        ]
+      }
+    },
+    "/api/v1/admin/pricing/service-types": {
+      "get": {
+        "operationId": "AdminPricingController_getPricing",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPricing"
+        ]
+      }
+    },
+    "/api/v1/admin/pricing/service-types/{id}": {
+      "put": {
+        "operationId": "AdminPricingController_updatePricing",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPricing"
+        ]
+      }
+    },
+    "/api/v1/admin/audit": {
+      "get": {
+        "operationId": "AdminAuditController_getLogs",
+        "parameters": [
+          {
+            "name": "skip",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminAudit"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/stats": {
+      "get": {
+        "operationId": "AdminWalletController_getStats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/top-ups": {
+      "get": {
+        "operationId": "AdminWalletController_getTopUps",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/top-ups/{id}/approve": {
+      "post": {
+        "operationId": "AdminWalletController_approveTopUp",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/top-ups/{id}/reject": {
+      "post": {
+        "operationId": "AdminWalletController_rejectTopUp",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/manual-credit": {
+      "post": {
+        "operationId": "AdminWalletController_manualCredit",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/manual-debit": {
+      "post": {
+        "operationId": "AdminWalletController_manualDebit",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/captains/{id}": {
+      "get": {
+        "operationId": "AdminWalletController_getCaptainWallet",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/wallet/captains/{id}/transactions": {
+      "get": {
+        "operationId": "AdminWalletController_getCaptainTransactions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminWallet"
+        ]
+      }
+    },
+    "/api/v1/admin/system-config": {
+      "get": {
+        "operationId": "AdminSystemConfigController_getConfig",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSystemConfig"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminSystemConfigController_updateConfig",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSystemConfig"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "RIM WAY API",
+    "description": "The RIM WAY Backend API Contract for Passenger and Driver Apps",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SendOtpDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "VerifyOtpDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "EstimateFareDto": {
+        "type": "object",
+        "properties": {
+          "pickupLat": {
+            "type": "number"
+          },
+          "pickupLng": {
+            "type": "number"
+          },
+          "dropoffLat": {
+            "type": "number"
+          },
+          "dropoffLng": {
+            "type": "number"
+          },
+          "serviceTypeId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pickupLat",
+          "pickupLng",
+          "dropoffLat",
+          "dropoffLng",
+          "serviceTypeId"
+        ]
+      },
+      "RequestRideDto": {
+        "type": "object",
+        "properties": {
+          "pickupLat": {
+            "type": "number"
+          },
+          "pickupLng": {
+            "type": "number"
+          },
+          "dropoffLat": {
+            "type": "number"
+          },
+          "dropoffLng": {
+            "type": "number"
+          },
+          "serviceTypeId": {
+            "type": "string"
+          },
+          "pickupName": {
+            "type": "string"
+          },
+          "dropoffName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pickupLat",
+          "pickupLng",
+          "dropoffLat",
+          "dropoffLng",
+          "serviceTypeId",
+          "pickupName",
+          "dropoffName"
+        ]
+      },
+      "CancelRideDto": {
+        "type": "object",
+        "properties": {
+          "rideId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rideId"
+        ]
+      },
+      "RegistrationVehicleDto": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number",
+            "minimum": 1990,
+            "maximum": 2035
+          },
+          "color": {
+            "type": "string"
+          },
+          "plateNumber": {
+            "type": "string"
+          },
+          "serviceTypeId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "brand",
+          "model",
+          "year",
+          "color",
+          "plateNumber",
+          "serviceTypeId"
+        ]
+      },
+      "RegistrationFileDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "fileUrl": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "fileUrl",
+          "fileName",
+          "mimeType"
+        ]
+      },
+      "DriverRegistrationDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/RegistrationVehicleDto"
+          },
+          "documents": {
+            "minItems": 4,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegistrationFileDto"
+            }
+          },
+          "vehiclePhotos": {
+            "minItems": 4,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegistrationFileDto"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "vehicle",
+          "documents",
+          "vehiclePhotos"
+        ]
+      },
+      "DriverStatusDto": {
+        "type": "object",
+        "properties": {
+          "isOnline": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "isOnline"
+        ]
+      },
+      "DriverLocationDto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ]
+      },
+      "CreatePhoneRideDto": {
+        "type": "object",
+        "properties": {
+          "pickupLat": {
+            "type": "number"
+          },
+          "pickupLng": {
+            "type": "number"
+          },
+          "dropoffLat": {
+            "type": "number"
+          },
+          "dropoffLng": {
+            "type": "number"
+          },
+          "serviceTypeId": {
+            "type": "string"
+          },
+          "pickupName": {
+            "type": "string"
+          },
+          "dropoffName": {
+            "type": "string"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "customerPhone": {
+            "type": "string"
+          },
+          "estimatedFare": {
+            "type": "number"
+          },
+          "distanceKm": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "pickupLat",
+          "pickupLng",
+          "dropoffLat",
+          "dropoffLng",
+          "serviceTypeId",
+          "pickupName",
+          "dropoffName",
+          "customerName",
+          "customerPhone"
+        ]
+      },
+      "AdminCancelRideDto": {
+        "type": "object",
+        "properties": {
+          "stateVersion": {
+            "type": "number"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stateVersion"
+        ]
+      },
+      "VehicleDto": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          },
+          "color": {
+            "type": "string"
+          },
+          "plateNumber": {
+            "type": "string"
+          },
+          "serviceTypeId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "brand",
+          "model",
+          "year",
+          "color",
+          "plateNumber",
+          "serviceTypeId"
+        ]
+      },
+      "AdminDocumentInputDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "fileUrl": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "fileUrl",
+          "fileName",
+          "mimeType"
+        ]
+      },
+      "CreateCaptainDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "pattern": "^\\+222[2-4][0-9]{7}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/VehicleDto"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminDocumentInputDto"
+            }
+          },
+          "vehiclePhotos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminDocumentInputDto"
+            }
+          }
+        },
+        "required": [
+          "phone"
+        ]
+      },
+      "UpdateCaptainDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ActionReasonDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

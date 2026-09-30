@@ -1,0 +1,12 @@
+{
+  "@@locale": "ar",
+  "appTitle": "ريم واي",
+  "navHome": "الرئيسية",
+  "navTrips": "الرحلات",
+  "navEarnings": "الأرباح",
+  "navProfile": "حسابي",
+  "loginTitle": "تسجيل الدخول",
+  "loading": "جاري التحميل...",
+  "errorNetwork": "خطأ في الاتصال بالشبكة",
+  "homeSearchDestination": "ابحث عن الوجهة..."
+}

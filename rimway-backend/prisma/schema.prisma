@@ -1,0 +1,373 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PASSENGER
+  DRIVER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum DriverStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+  REJECTED
+}
+
+enum RideSource {
+  PASSENGER_APP
+  PHONE_OPERATOR
+}
+
+enum RideStatus {
+  SEARCHING
+  DRIVER_ASSIGNED
+  DRIVER_ARRIVING
+  DRIVER_ARRIVED
+  WAITING_FOR_PASSENGER
+  PASSENGER_BOARDED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED_BY_PASSENGER
+  CANCELLED_BY_DRIVER
+  CANCELLED_BY_ADMIN
+  NO_DRIVER_FOUND
+}
+
+enum TransactionType {
+  RIDE_FARE
+  COMMISSION
+  BONUS
+  WITHDRAWAL
+  TOP_UP
+  PENALTY
+  MANUAL_CREDIT
+  MANUAL_DEBIT
+}
+
+enum TopUpStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(uuid())
+  phone        String   @unique
+  name         String?
+  photo        String?
+  language     String   @default("ar")
+  role         UserRole @default(PASSENGER)
+  referralCode String?  @unique
+  referredById String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  driverProfile  Driver?
+  passengerRides Ride[]         @relation("PassengerRides")
+  savedPlaces    SavedPlace[]
+  complaints     Complaint[]    @relation("UserComplaints")
+  RefreshToken   RefreshToken[]
+  ratingsGiven   Rating[]
+
+  @@index([phone])
+  @@index([role])
+}
+
+model Driver {
+  id           String       @id @default(uuid())
+  userId       String       @unique
+  user         User         @relation(fields: [userId], references: [id])
+  isOnline     Boolean      @default(false)
+  status       DriverStatus @default(PENDING)
+  rejectionReason String?
+  priorityTier String       @default("NORMAL")
+  currentLat   Float?
+  currentLng   Float?
+
+  // Financial fields use Decimal(10,2) for exact precision
+  walletBalance    Decimal @default(0.00) @db.Decimal(10, 2)
+  rating           Decimal @default(5.00) @db.Decimal(3, 2)
+  acceptanceRate   Decimal @default(100.00) @db.Decimal(5, 2)
+  cancellationRate Decimal @default(0.00) @db.Decimal(5, 2)
+  totalTrips       Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vehicle       Vehicle?
+  driverRides   Ride[]              @relation("DriverRides")
+  transactions  WalletTransaction[]
+  documents     DriverDocument[]
+  ratings       Rating[]
+  topUpRequests TopUpRequest[]
+
+  // Indexes for geospatial queries and quick active driver lookups
+  @@index([isOnline, status])
+  @@index([currentLat, currentLng])
+  @@index([priorityTier])
+}
+
+model Vehicle {
+  id            String      @id @default(uuid())
+  driverId      String      @unique
+  driver        Driver      @relation(fields: [driverId], references: [id])
+  brand         String
+  model         String
+  year          Int
+  color         String
+  plateNumber   String      @unique
+  serviceTypeId String
+  serviceType   ServiceType @relation(fields: [serviceTypeId], references: [id])
+
+  @@index([plateNumber])
+}
+
+model ServiceType {
+  id         String  @id @default(uuid())
+  name       String // Standard, Business, Scooter
+  baseFare   Decimal @db.Decimal(10, 2)
+  perKm      Decimal @db.Decimal(10, 2)
+  perMinute  Decimal @db.Decimal(10, 2)
+  minFare    Decimal @db.Decimal(10, 2)
+  waitingFee Decimal @default(0.00) @db.Decimal(10, 2)
+  cancelFee  Decimal @default(0.00) @db.Decimal(10, 2)
+  surgeRate  Decimal @default(1.00) @db.Decimal(3, 2)
+  serviceFee Decimal @default(0.00) @db.Decimal(5, 2) // Commission %
+  isActive   Boolean @default(true)
+  version    Int     @default(1)
+
+  vehicles Vehicle[]
+  rides    Ride[]
+}
+
+model Zone {
+  id        String  @id @default(uuid())
+  name      String // e.g., Airport, Downtown
+  polygon   Json // GeoJSON representation
+  surgeRate Decimal @default(1.00) @db.Decimal(3, 2)
+  isActive  Boolean @default(true)
+}
+
+model Place {
+  id       String   @id @default(uuid())
+  nameAr   String
+  nameFr   String?
+  nameEn   String?
+  aliases  String[] // Support for alternative local names
+  lat      Float
+  lng      Float
+  category String // Hospital, Mosque, Market
+  address  String?
+  isActive Boolean  @default(true)
+
+  @@index([nameAr])
+  @@index([category])
+  @@index([lat, lng])
+}
+
+model SavedPlace {
+  id          String  @id @default(uuid())
+  passengerId String
+  passenger   User    @relation(fields: [passengerId], references: [id])
+  name        String
+  lat         Float
+  lng         Float
+  address     String?
+}
+
+model PromoCode {
+  id          String    @id @default(uuid())
+  code        String    @unique
+  discountPct Decimal?  @db.Decimal(5, 2)
+  discountFix Decimal?  @db.Decimal(10, 2)
+  maxDiscount Decimal?  @db.Decimal(10, 2)
+  expiry      DateTime?
+  isActive    Boolean   @default(true)
+  usageLimit  Int?
+  usedCount   Int       @default(0)
+  rides       Ride[]
+
+  @@index([code])
+}
+
+model Ride {
+  id            String      @id @default(uuid())
+  passengerId   String?
+  passenger     User?       @relation("PassengerRides", fields: [passengerId], references: [id])
+  driverId      String?
+  driver        Driver?     @relation("DriverRides", fields: [driverId], references: [id])
+  serviceTypeId String
+  serviceType   ServiceType @relation(fields: [serviceTypeId], references: [id])
+  promoCodeId   String?
+  promoCode     PromoCode?  @relation(fields: [promoCodeId], references: [id])
+
+  pickupLat   Float
+  pickupLng   Float
+  pickupName  String
+  dropoffLat  Float
+  dropoffLng  Float
+  dropoffName String
+
+  customerName  String?
+  customerPhone String?
+  source        RideSource @default(PASSENGER_APP)
+  payloadHash   String?
+
+  // Snapshot Pricing (Preserves exact rates at the time of booking)
+  snapBaseFare   Decimal @db.Decimal(10, 2)
+  snapPerKm      Decimal @db.Decimal(10, 2)
+  snapPerMin     Decimal @db.Decimal(10, 2)
+  snapSurge      Decimal @db.Decimal(3, 2)
+  snapServiceFee Decimal @db.Decimal(5, 2)
+  snapMinFare    Decimal? @db.Decimal(10, 2)
+
+  status        RideStatus @default(SEARCHING)
+  stateVersion  Int        @default(1)
+  idempotencyKey String?    @unique
+  distanceKm    Decimal?   @db.Decimal(10, 2)
+  estimatedTime Int?
+  estimatedFare Decimal?   @db.Decimal(10, 2)
+  finalFare     Decimal?   @db.Decimal(10, 2)
+  rideCode      String
+
+  scheduledFor DateTime?
+
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  complaints Complaint[]
+  walletTransactions WalletTransaction[]
+  ratings    Rating[]
+
+  @@index([passengerId])
+  @@index([driverId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model WalletTransaction {
+  id            String          @id @default(uuid())
+  driverId      String
+  driver        Driver          @relation(fields: [driverId], references: [id])
+  rideId        String?
+  ride          Ride?           @relation(fields: [rideId], references: [id])
+  amount        Decimal         @db.Decimal(10, 2)
+  type          TransactionType
+  description   String?
+  balanceBefore Decimal?        @db.Decimal(10, 2)
+  balanceAfter  Decimal?        @db.Decimal(10, 2)
+  rateSnapshot  Decimal?        @db.Decimal(5, 2)
+  actorId       String?
+  createdAt     DateTime        @default(now())
+
+  @@index([driverId, createdAt])
+  @@unique([rideId, type])
+}
+
+model TopUpRequest {
+  id              String      @id @default(uuid())
+  driverId        String
+  driver          Driver      @relation(fields: [driverId], references: [id])
+  amount          Decimal     @db.Decimal(10, 2)
+  status          TopUpStatus @default(PENDING)
+  reference       String?
+  proofUrl        String?
+  notes           String?
+  processedBy     String?
+  processedAt     DateTime?
+  rejectionReason String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([driverId, status])
+  @@index([status, createdAt])
+}
+
+model Complaint {
+  id          String   @id @default(uuid())
+  rideId      String
+  ride        Ride     @relation(fields: [rideId], references: [id])
+  reporterId  String
+  reporter    User     @relation("UserComplaints", fields: [reporterId], references: [id])
+  subject     String
+  description String
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+}
+
+// Audit Logs for sensitive operations
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String // ID of Admin or System
+  action    String // e.g., UPDATE_PRICING, WALLET_CREDIT
+  entity    String // e.g., ServiceType, Driver
+  entityId  String
+  oldData   Json?
+  newData   Json?
+  reason    String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([userId])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  tokenHash String   @unique
+  isRevoked Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model DriverDocument {
+  id         String    @id @default(uuid())
+  driverId   String
+  driver     Driver    @relation(fields: [driverId], references: [id])
+  type       String
+  fileUrl    String
+  fileName   String
+  mimeType   String
+  status     String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  uploadedAt DateTime  @default(now())
+  verifiedAt DateTime?
+  verifiedBy String?
+
+  @@index([driverId])
+}
+
+model Rating {
+  id          String   @id @default(uuid())
+  rideId      String
+  ride        Ride     @relation(fields: [rideId], references: [id])
+  driverId    String
+  driver      Driver   @relation(fields: [driverId], references: [id])
+  passengerId String
+  passenger   User     @relation(fields: [passengerId], references: [id])
+  rating      Int
+  comment     String?
+  createdAt   DateTime @default(now())
+
+  @@unique([rideId, passengerId])
+  @@index([driverId])
+}
+
+// ─── System-wide admin configurable settings ────────────────────────────────
+model SystemConfig {
+  id               String  @id @default("global")
+  minWalletBalance Decimal @default(0) @db.Decimal(10, 2)
+  updatedAt        DateTime @updatedAt
+  updatedByAdminId String?
+}
