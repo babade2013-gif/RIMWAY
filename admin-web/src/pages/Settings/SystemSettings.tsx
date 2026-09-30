@@ -147,10 +147,14 @@ export default function SystemSettings() {
         </div>
         <div>
           <h3 className="font-bold text-blue-900 mb-1">ملاحظة حول الكباتن المتأثرين</h3>
-          <p className="text-sm text-blue-700 leading-relaxed">
+          <p className="text-sm text-blue-700 leading-relaxed mb-2">
             عند تغيير هذه القيمة، سيتم تطبيقها فوراً على محرك توزيع الطلبات (Dispatch Engine).
             أي كابتن متصل حالياً ورصيده أقل من {minBalance || '0'} MRU سيتم تخطيه تلقائياً ولن تصله الطلبات.
           </p>
+          <div className="flex gap-4 mt-2">
+             <span className="text-xs bg-white px-2 py-1 rounded text-blue-800 font-bold border border-blue-200">إجمالي الكباتن: {totalCaptains}</span>
+             <span className="text-xs bg-red-100 px-2 py-1 rounded text-red-800 font-bold border border-red-200">كباتن تحت الحد الأدنى: {exhaustedCount}</span>
+          </div>
         </div>
       </div>
     </div>
