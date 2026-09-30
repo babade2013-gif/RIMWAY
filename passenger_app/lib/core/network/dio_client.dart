@@ -13,7 +13,7 @@ class DioClient {
   DioClient({required this.secureStorage}) {
     dio = Dio(BaseOptions(
       // Environment-based Base URL
-      baseUrl: const String.fromEnvironment('API_URL', defaultValue: 'http://10.0.2.2:3000/api/v1'),
+      baseUrl: const String.fromEnvironment('API_URL', defaultValue: 'https://rimway-backend.onrender.com/api/v1'),
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
     ));

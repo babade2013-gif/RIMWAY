@@ -213,7 +213,7 @@ export default function CaptainDetails() {
   const getFullFileUrl = (url: string) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    const base = apiClient.defaults.baseURL?.replace('/api/v1', '') || 'http://localhost:3000';
+    const base = apiClient.defaults.baseURL?.replace('/api/v1', '') || 'https://rimway-backend.onrender.com';
     return `${base}${url}`;
   };
 
