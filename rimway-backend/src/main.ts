@@ -44,6 +44,6 @@ async function bootstrap() {
   if (!fs.existsSync('docs')) { fs.mkdirSync('docs'); }
   fs.writeFileSync('docs/openapi.json', JSON.stringify(document, null, 2));
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
 bootstrap();
